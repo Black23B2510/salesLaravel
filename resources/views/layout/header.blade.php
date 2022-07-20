@@ -99,10 +99,10 @@
             <nav class="main-menu">
                 <ul class="l-inline ov">
                     <li><a href="/">Trang chủ</a></li>
-                    <li><a href="/detail/1">Sản phẩm</a>
+                    <li><a href="/product_type/1">Sản phẩm</a>
                         <ul class="sub-menu">
                             @foreach($loai_sp as $tp)
-                            <li><a href="/detail/{{$tp->id}}">{{$tp->name}}</a></li>
+                            <li><a href="/product_type/{{$tp->id}}">{{$tp->name}}</a></li>
                             @endforeach
                         </ul>
                     </li>

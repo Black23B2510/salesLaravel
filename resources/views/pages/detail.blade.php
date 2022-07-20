@@ -63,7 +63,7 @@
                                 <option value="White">White</option>
                             </select>
                             <select class="wc-select" name="color">
-                                <option>Qty</option>
+                                <option>Quantity</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -171,38 +171,16 @@
                     <h3 class="widget-title">Best Sellers</h3>
                     <div class="widget-body">
                         <div class="beta-sales beta-lists">
+                            @foreach($best_seller as $bs)
                             <div class="media beta-sales-item">
-                                <a class="pull-left" href="product.html"><img
-                                        src="/source/assets/dest/images/products/sales/1.png" alt=""></a>
+                                <a class="pull-left" href="product.html"><img src="/source/image/product/{{$bs->image}}"
+                                        alt=""></a>
                                 <div class="media-body">
-                                    Sample Woman Top
-                                    <span class="beta-sales-price">$34.55</span>
+                                    {{$bs->name}}
+                                    <span class="beta-sales-price">{{number_format($bs->unit_price)}}</span>
                                 </div>
                             </div>
-                            <div class="media beta-sales-item">
-                                <a class="pull-left" href="product.html"><img
-                                        src="/source/assets/dest/images/products/sales/2.png" alt=""></a>
-                                <div class="media-body">
-                                    Sample Woman Top
-                                    <span class="beta-sales-price">$34.55</span>
-                                </div>
-                            </div>
-                            <div class="media beta-sales-item">
-                                <a class="pull-left" href="product.html"><img
-                                        src="/source/assets/dest/images/products/sales/3.png" alt=""></a>
-                                <div class="media-body">
-                                    Sample Woman Top
-                                    <span class="beta-sales-price">$34.55</span>
-                                </div>
-                            </div>
-                            <div class="media beta-sales-item">
-                                <a class="pull-left" href="product.html"><img
-                                        src="/source/assets/dest/images/products/sales/4.png" alt=""></a>
-                                <div class="media-body">
-                                    Sample Woman Top
-                                    <span class="beta-sales-price">$34.55</span>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div> <!-- best sellers widget -->
@@ -224,6 +202,9 @@
                     </div>
                 </div>
             </div> <!-- #content -->
-        </div> <!-- .container -->
-        <!-- include js files -->
-        @endsection
+        </div>
+    </div>
+</div>
+<!-- .container -->
+<!-- include js files -->
+@endsection

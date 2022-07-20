@@ -17,4 +17,5 @@ use App\Http\Controllers\ProductController;
 //     return view('pages.index');
 // });
 Route::get('/', [ProductController::class , 'getProducts']);
-Route::get('/detail/{id}', [ProductController::class , 'getProductDetail']);;
+Route::get('/detail/{id}', [ProductController::class , 'getProductDetail']);
+Route::get('/product_type/{id}', [ProductController::class , 'getProductType']);

@@ -44,7 +44,7 @@
                     <div class="beta-products-list">
                         <h4>New Products</h4>
                         <div class="beta-products-details">
-                            <p class="pull-left">styles found</p>
+                            <p class="pull-left">{{$count_products}} styles found</p>
                             <div class="clearfix"></div>
                         </div>
                         <div class="row">
@@ -86,6 +86,7 @@
                             </div>
                             @endforeach
                         </div>
+                        <div>{{$new_product->links()}}</div>
                     </div>
                     <!-- .beta-products-list -->
                     <div class="space50">&nbsp;</div>
@@ -93,12 +94,12 @@
                     <div class="beta-products-list">
                         <h4>Top Products</h4>
                         <div class="beta-products-details">
-                            <p class="pull-left">438 styles found</p>
+                            <p class="pull-left">{{$promotion_product}} styles found</p>
                             <div class="clearfix"></div>
                         </div>
                         <div class="space40">&nbsp;</div>
                         <div class="row">
-                            @foreach($promotion_product as $km)
+                            @foreach($top_products as $km)
                             <div class="col-sm-3">
                                 <div class="single-item">
                                     <div class="single-item-header">
@@ -109,10 +110,13 @@
                                         <p class="single-item-title">{{$km->name}}</p>
                                         <p class="single-item-price" style="text-align:left;font-size: 15px;">
                                             @if($km->promotion_price==0)
-                                            <span class="flash-sale">{{number_format($km->unit_price)}} Đồng</span>
+                                            <span class="flash-sale">{{number_format($km->unit_price)}}
+                                                Đồng</span>
                                             @else
-                                            <span class="flash-del">{{number_format($km->unit_price)}} Đồng</span>
-                                            <span class="flash-sale">{{number_format($km->promotion_price)}} Đồng</span>
+                                            <span class="flash-del">{{number_format($km->unit_price)}}
+                                                Đồng</span>
+                                            <span class="flash-sale">{{number_format($km->promotion_price)}}
+                                                Đồng</span>
                                             @endif
                                         </p>
                                     </div>
@@ -130,6 +134,7 @@
                             </div>
                             @endforeach
                         </div>
+                        <div class="row">{{$top_products->links()}}</div>
                     </div> <!-- .beta-products-list -->
                 </div>
             </div> <!-- end section with sidebar and main content -->
