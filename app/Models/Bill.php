@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Bill extends Model
 {
     use HasFactory;
+    protected $table = 'bills';
     public function billDetail(){
-        
+        return $this->hasOne('App\Models\Bill','id_bill','id');
     }
 }

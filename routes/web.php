@@ -19,3 +19,4 @@ use App\Http\Controllers\ProductController;
 Route::get('/', [ProductController::class , 'getProducts']);
 Route::get('/detail/{id}', [ProductController::class , 'getProductDetail']);
 Route::get('/product_type/{id}', [ProductController::class , 'getProductType']);
+Route::get('addtocart/{id}', [ProductController::class, 'AddtoCart'])->name('themgiohang');

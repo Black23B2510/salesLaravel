@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductType;
+use Illuminate\Support\Facades\Session;
+use App\Models\Cart;
 use App\Models\Slide;
 class ProductController extends Controller
 {
@@ -27,5 +29,13 @@ class ProductController extends Controller
         $type_product = Product::where('id_type',$type)->cursorPaginate(6);
         $other_products = Product::where('id_type','<>',$type)->get();
         return view('pages.product_type', compact('all_type','type_product','other_products'));
+    }
+    public function AddtoCart(Request $req, $id){
+            $product = Product::find($id);
+            $oldCart = Session('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->add($product, $id);
+            $req->session()->put('cart', $cart);
+            return redirect()->back();
     }
 }
