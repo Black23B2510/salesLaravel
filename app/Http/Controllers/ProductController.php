@@ -38,4 +38,5 @@ class ProductController extends Controller
             $req->session()->put('cart', $cart);
             return redirect()->back();
     }
+    
 }

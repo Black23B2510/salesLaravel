@@ -12,8 +12,8 @@
                     @if(Session::has('use'))
                     <li><a href="#"><i class="fa fa-user"></i>{{Session('use')->name}}</a></li>
                     @else
-                    <li><a href="#">Đăng kí</a></li>
-                    <li><a href="#">Đăng nhập</a></li>
+                    <li><a href="/signup">Đăng kí</a></li>
+                    <li><a href="/login">Đăng nhập</a></li>
                     @endif
                 </ul>
             </div>

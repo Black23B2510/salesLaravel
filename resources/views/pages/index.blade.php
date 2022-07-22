@@ -41,6 +41,9 @@
             <div class="space60">&nbsp;</div>
             <div class="row">
                 <div class="col-sm-12">
+                @if(Session::has('message'))
+                <div class="alert alert-{{Session::get('flag')}}">{{Session::get('message')}}</div>
+                @endif
                     <div class="beta-products-list">
                         <h4>New Products</h4>
                         <div class="beta-products-details">
