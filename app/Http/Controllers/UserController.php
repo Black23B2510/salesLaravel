@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Session;
 class UserController extends Controller
 {
     //Sign up as a user
@@ -57,13 +57,24 @@ class UserController extends Controller
             'email.email'=>'Vui lòng nhập đúng email',
             'password.required'=>'Vui lòng nhập đúng mật khẩu'
         ]);
-        $credentials=['email'=>$req->email,'password'=>$req->password];
-            if(Auth::attempt($credentials)){//The attempt method will return true if authentication was successful. Otherwise, false will be returned.
-                return redirect('/')->with(['flag'=>'alert','message'=>'Đăng nhập thành công']);
-            }
-            else{
-                return redirect()->back()->with(['flag'=>'danger','message'=>'Đăng nhập không thành công']);
-            }
+        $login = [
+            'email' => $req->input('email'),
+            'password' => $req->input('password')
+        ];
+        if(Auth::attempt($login)){//The attempt method will return true if authentication was successful. Otherwise, false will be returned.
+            $user = Auth::user();
+            Session::put('user', $user);
+            echo '<script>alert("Đăng nhập thành công.");window.location.assign("/");</script>';
+        }
+        else{
+            echo '<script>alert("Đăng nhập thất bại.");window.location.assign("/login");</script>';
+        }
+    }
+
+    public function logout(){
+        Session::forget('user');
+        Session::forget('cart');
+        return redirect('/');
     }
     
 }

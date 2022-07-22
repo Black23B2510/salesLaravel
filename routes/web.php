@@ -23,5 +23,6 @@ Route::get('/product_type/{id}', [ProductController::class , 'getProductType']);
 Route::get('/addtocart/{id}', [ProductController::class, 'AddtoCart'])->name('themgiohang');
 Route::get('/signup', [UserController::class, 'getSignUp'])->name('dangki');
 Route::post('/signup_successfully', [UserController::class, 'postSignUp'])->name('dangkithanhcong');
-Route::get('/login', [UserController::class, 'Login'])->name('dangnhap');
-Route::post('/login_successfully', [UserController::class, 'postLogin'])->name('dangnhapthanhcong');
+Route::get('/getLogin', [UserController::class, 'Login'])->name('dangnhap');
+Route::post('/login', [UserController::class, 'postLogin'])->name('login_sc');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
