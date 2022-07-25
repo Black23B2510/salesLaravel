@@ -19,7 +19,7 @@ class Cart extends Model
             $this->totalPrice = $oldCart->totalPrice;
         }
     }
-    //Them phan tu vao gio hang
+    //Them 1 phan tu vao gio hang
     public function add($item, $id, $qty = 1)
     {
         if ($item->promotion_price == 0) {
@@ -47,6 +47,10 @@ class Cart extends Model
             $this->totalQty = $this->totalQty + $qty;
             $this->totalPrice += $item->promotion_price * $giohang['qty'];
         }
+    }
+    
+    public function addManyToCart(){
+        
     }
     //Xoa 1
     public function reduceByOne($id)

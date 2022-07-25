@@ -7,7 +7,7 @@
         </div>
         <div class="pull-right">
             <div class="beta-breadcrumb font-large">
-                <a href="index.html">Home</a> / <span>Product</span>
+                <a href="/">Home</a> / <span>Product</span>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -70,19 +70,18 @@
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-                            <a class="add-to-cart" href="#"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="add-to-cart" href="/addtocart/{{$product->id}}"><i
+                                    class="fa fa-shopping-cart"></i></a>
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="space40">&nbsp;</div>
                 <div class="woocommerce-tabs">
                     <ul class="tabs">
                         <li><a href="#tab-description">Description</a></li>
                         <li><a href="#tab-reviews">Reviews (0)</a></li>
                     </ul>
-
                     <div class="panel" id="tab-description">
                         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
                             consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro

@@ -41,7 +41,8 @@ class UserController extends Controller
         $user->address = $req->address;
         $user->level = 3; //level=2:Technican, level=1:Admin, level=3:User
         $user->save();
-        return redirect()->route('dangnhap')->with('success','Tạo tài khoản thành công');//Trả về trang hiện tại là trang đăng ký sau khi đăng ký thành công
+        echo '<script>alert("Tạo tài khoản thành công");window.location.assign("/getLogin");</script>';
+        // return redirect()->route('dangnhap')->with('success','Tạo tài khoản thành công');//Trả về trang hiện tại là trang đăng ký sau khi đăng ký thành công
     }
 
     public function Login(){

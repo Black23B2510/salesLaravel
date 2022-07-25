@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
             $top_products  = Product::where('new', 0)->cursorPaginate(8);                                                
             $view->with('top_products', $top_products);               
         });
-        view()->composer('layout.header',function ($view){
+        view()->composer(['layout.header','pages.checkout'],function ($view){
             if(Session('cart')){
                 $oldCart = Session::get('cart');
                 $cart= new Cart($oldCart);

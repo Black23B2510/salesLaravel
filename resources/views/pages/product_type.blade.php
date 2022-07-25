@@ -7,7 +7,7 @@
         </div>
         <div class="pull-right">
             <div class="beta-breadcrumb font-large">
-                <a href="index.html">Home</a> / <span>Sản phẩm</span>
+                <a href="/">Home</a> / <span>Sản phẩm</span>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -56,8 +56,9 @@
                                         </p>
                                     </div>
                                     <div class="single-item-caption">
-                                        <a class="add-to-cart pull-left" href=""><i class="fa fa-shopping-cart"></i></a>
-                                        <a class="add-to-cart pull-left" href="#"><i class="fa fa-heart"></i></a>
+                                        <a class="add-to-cart pull-left" href="/addtocart/{{$tp->id}}"><i
+                                                class="fa fa-shopping-cart"></i></a>
+                                        <a class="add-to-cart pull-left" href=""><i class="fa fa-heart"></i></a>
                                         <a class="beta-btn primary" href="/detail/{{$tp->id}}">Details <i
                                                 class="fa fa-chevron-right"></i></a>
                                         <div class="clearfix"></div>
