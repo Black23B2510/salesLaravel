@@ -44,8 +44,9 @@
                         <div class="beta-dropdown cart-body">
                             @foreach($productsCart as $product)
                             <div class="cart-item" id="cart-item{{$product['item']['id']}}">
-                                <a class="cart-item-delete" href="" value="{{$product['item']['id']}}"
-                                    soluong="{{$product['qty']}}"><i class="fa fa-times"></i></a>
+                                <a class="cart-item-delete" href="/deleteItem/{{$product['item']['id']}}"
+                                    value="{{$product['item']['id']}}" soluong="{{$product['qty']}}"><i
+                                        class="fa fa-times"></i></a>
                                 <div class="media">
                                     <a class="pull-left" href="#"><img
                                             src="source/image/product/{{$product['item']['image']}}" alt=""></a>

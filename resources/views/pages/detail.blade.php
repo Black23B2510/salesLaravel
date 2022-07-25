@@ -172,8 +172,8 @@
                         <div class="beta-sales beta-lists">
                             @foreach($best_seller as $bs)
                             <div class="media beta-sales-item">
-                                <a class="pull-left" href="product.html"><img src="/source/image/product/{{$bs->image}}"
-                                        alt=""></a>
+                                <a class="pull-left" href="/detail/{{$bs->id}}"><img
+                                        src="/source/image/product/{{$bs->image}}" alt=""></a>
                                 <div class="media-body">
                                     {{$bs->name}}
                                     <span class="beta-sales-price">{{number_format($bs->unit_price)}}</span>
@@ -189,7 +189,7 @@
                         <div class="beta-sales beta-lists">
                             @foreach($new_product as $product)
                             <div class="media beta-sales-item">
-                                <a class="pull-left" href="product.html"><img
+                                <a class="pull-left" href="/detail/{{$bs->id}}"><img
                                         src="/source/image/product/{{$product->image}}" alt=""></a>
                                 <div class="media-bodimagey">
                                     {{$product->name}}
