@@ -30,6 +30,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/checkout', [ProductController::class, 'getCheckout'])->name('checkout');
 Route::post('/pcheckout', [ProductController::class, 'postCheckout'])->name('checkout_sc');
 Route::get('/vnpay-index',function(){
-    return view('vnpay-index');
+    return view('vnpay.vnpay-index');
 });
-Route::post('/vnpay/create_payment',[PrpductController::class,'createPayment'])->name('postCreatePayment');
+Route::post('/vnpay/create_payment',[ProductController::class,'createPayment'])->name('postCreatePayment');
+Route::get('/vnpay_return',[ProductController::class,'vnpayReturn'])->name('vnpayReturn');

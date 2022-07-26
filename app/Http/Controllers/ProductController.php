@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\BillDetail;
 use App\Models\Bill;
+use App\Models\Payment;
 use App\Models\Slide;
 class ProductController extends Controller
 {
@@ -67,9 +68,6 @@ class ProductController extends Controller
         return view('pages.checkout');
     }
 
-    public function vnpay(){
-        return view('pages.vnpay-index');
-    }
     public function postCheckout(Request $request){
         if($request->input('payment_method')!="VNPAY"){
             $cart=Session::get('cart');
@@ -104,7 +102,107 @@ class ProductController extends Controller
         }
         else {//nếu thanh toán là vnpay
             $cart=Session::get('cart');
-            return view('/vnpay-index',compact('cart'));
+            return view('vnpay.vnpay-index',compact('cart'));
         }
     }
+
+    public function createPayment(Request $request){
+        $cart=Session::get('cart');
+        $vnp_TxnRef = $request->transaction_id; //Mã giao dịch. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = $request->order_desc;
+        $vnp_Amount = str_replace(',', '', $cart->totalPrice * 100);
+        $vnp_Locale = $request->language;
+        $vnp_BankCode =$request->bank_code;
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $vnpay_Data = array(
+            "vnp_Version" => "2.0.0",
+            "vnp_TmnCode" => env('VNP_TMNCODE'),
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_ReturnUrl" => route('vnpayReturn'),
+            "vnp_TxnRef" => $vnp_TxnRef,
+           
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $vnpay_Data['vnp_BankCode'] = $vnp_BankCode;
+        }
+        ksort($vnpay_Data);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($vnpay_Data as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . $key . "=" . $value;
+            } else {
+                $hashdata .= $key . "=" . $value;
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = env('VNP_URL') . "?" . $query;
+        if (env('VNP_HASHSECRECT')) {
+   // $vnpSecureHash = md5($vnp_HashSecret . $hashdata);
+            //$vnpSecureHash = hash('sha256', env('VNP_HASHSECRECT'). $hashdata);
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, env('VNP_HASHSECRECT'));//  
+           // $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        //dd($vnp_Url);
+        return redirect($vnp_Url);
+        die();
+    }
+
+    //ham nhan get request tra ve tu vnpay
+    public function vnpayReturn(Request $request){ 
+        //dd($request->all());
+        $vnp_SecureHash = $request->vnp_SecureHash;
+        //echo $vnp_SecureHash;
+        $vnpay_Data = array();
+           foreach ($request->query() as $key => $value) {
+               if (substr($key, 0, 4) == "vnp_") {
+                   $vnpay_Data[$key] = $value;
+               }
+           }
+        unset($vnpay_Data['vnp_SecureHash']);
+        ksort($vnpay_Data);
+        $i = 0;
+        $hashData = "";
+        foreach ($vnpay_Data as $key => $value) {
+            if ($i == 1) {
+                $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+             }else {
+                $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+        }
+        $secureHash = hash_hmac('sha512', $hashData, env('VNP_HASHSECRECT'));
+        // echo $secureHash;
+        if ($secureHash == $vnp_SecureHash) {
+            if ($request->query('vnp_ResponseCode') == '00') {
+                    $cart=Session::get('cart');
+                    //lay du lieu vnpay tra ve
+                    $vnpay_Data=$request->all();
+                    //insert du lieu vao bang payments
+                    $payment = new Payment();
+                    $payment->bill_id = $vnpay_Data['vnp_TxnRef'];
+                    $payment->totalPrice = $vnpay_Data['vnp_Amount'] / 100;
+                    $payment->content = $vnpay_Data['vnp_OrderInfo'];
+                    $payment->feedback_code = $vnpay_Data['vnp_ResponseCode'];
+                    $payment->VNPAY_code = $vnpay_Data['vnp_TransactionNo'];
+                    $payment->bank_code = $vnpay_Data['vnp_BankCode'];
+                    $payment->payment_time = $vnpay_Data['vnp_PayDate'];
+                    $payment->save();
+                    //truyen vnpay_Data vao trang vnpay_return
+                    return view('vnpay.vnpay-return',compact('vnpay_Data'));
+                }
+            }
+        }
+
 }
