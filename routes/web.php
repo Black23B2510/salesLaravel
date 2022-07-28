@@ -34,3 +34,6 @@ Route::get('/vnpay-index',function(){
 });
 Route::post('/vnpay/create_payment',[ProductController::class,'createPayment'])->name('postCreatePayment');
 Route::get('/vnpay_return',[ProductController::class,'vnpayReturn'])->name('vnpayReturn');
+
+Route::get('/getInput-email',[UserController::class,'getInputEmail'])->name('getInputEmail');
+Route::post('/input-email',[UserController::class,'postInputEmail'])->name('postInputEmail');

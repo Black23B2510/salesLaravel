@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 class UserController extends Controller
 {
@@ -68,7 +69,7 @@ class UserController extends Controller
             echo '<script>alert("Đăng nhập thành công.");window.location.assign("/");</script>';
         }
         else{
-            echo '<script>alert("Đăng nhập thất bại.");window.location.assign("/login");</script>';
+            echo '<script>alert("Đăng nhập thất bại.");window.location.assign("/getLogin");</script>';
         }
     }
 
@@ -77,5 +78,39 @@ class UserController extends Controller
         Session::forget('cart');
         return redirect('/');
     }
+
+    
+    
+    public function getInputEmail(){
+        return view('emails.input-email');
+    }
+    public function postInputEmail(Request $req){
+        $email=$req->txtEmail;
+        //validate
+        $this->validate($req,[
+            'txtEmail'=>'required|email',
+        ],[
+            'txtEmail.required'=>'Vui lòng nhập email',
+            'txtEmail.email'=>'Vui lòng nhập đúng email',
+        ]);
+        // kiểm tra có user có email như vậy không
+        $user=User::where('email',$email)->get();
+        //dd($user);
+        if($user->count()!=0){
+            $pwd = Str::random(6);
+            //gửi mật khẩu reset tới email
+            $sentData = [
+                'title' => 'Mật khẩu mới của bạn là:',
+                'body' => $pwd,
+            ];
+            \Mail::to($email)->send(new \App\Mail\SendMail($sentData));
+            Session::flash('message', 'Send email successfully!');
+            echo '<script>alert("Mật khẩu mới đã được gửi đến email của bạn");window.location.assign("/getLogin");</script>';
+            //về lại trang đăng nhập của khách
+        }
+        else {
+            echo '<script>alert("Gửi lại mật khẩu không thành công");window.location.assign("/getInputEmail");</script>';
+        }
+    }//hết postInputEmail
     
 }

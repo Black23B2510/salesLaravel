@@ -122,7 +122,8 @@
                                         </p>
                                     </div>
                                     <div class="single-item-caption">
-                                        <a class="add-to-cart pull-left" href=""><i class="fa fa-shopping-cart"></i></a>
+                                        <a class="add-to-cart pull-left" href="/addtocart/{{$km->id}}"><i class=" fa
+                                            fa-shopping-cart"></i></a>
 
                                         <a class="add-to-wishlist" href="wishlist/add/{{$new->id}}"><i
                                                 class="fa fa-heart"></i></a>

@@ -11,7 +11,9 @@ use App\Models\Customer;
 use App\Models\BillDetail;
 use App\Models\Bill;
 use App\Models\Payment;
+use App\Models\User;
 use App\Models\Slide;
+
 class ProductController extends Controller
 {
     public function getProducts(){
@@ -204,6 +206,6 @@ class ProductController extends Controller
                 return view('vnpay.vnpay-return',compact('vnpay_Data'));
                 }
             }
-        }
+    }
 
 }

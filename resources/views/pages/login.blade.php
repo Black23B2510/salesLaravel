@@ -45,6 +45,7 @@
                 </div>
                 <div class="col-sm-3"></div>
             </div>
+            <div><a href="getInput-email">Quên mật khẩu</a></div>
         </form>
     </div> <!-- #content -->
 </div> <!-- .container -->
