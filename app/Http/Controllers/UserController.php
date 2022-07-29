@@ -15,6 +15,7 @@ class UserController extends Controller
         return view('pages.signup');
     }
 
+    //Cập nhật một user mới vào trong DB
     public function postSignUp(Request $req){
         //Kiểm tra và thông báo lỗi nếu dữ liệu nhập vào không đúng yêu cầu
         $this->validate($req,
@@ -46,10 +47,12 @@ class UserController extends Controller
         // return redirect()->route('dangnhap')->with('success','Tạo tài khoản thành công');//Trả về trang hiện tại là trang đăng ký sau khi đăng ký thành công
     }
 
+    //Trả về view đăng nhập
     public function Login(){
         return view('pages.login');
     }
     
+    //Kiểm tra thông tin đăng nhập
     public function postLogin(Request $req){
         $this->validate($req,[
             'email'=>'required|email',
@@ -73,17 +76,20 @@ class UserController extends Controller
         }
     }
 
+    //Đăng xuất
     public function logout(){
         Session::forget('user');
         Session::forget('cart');
+        Session::forget('customer');
         return redirect('/');
     }
 
-    
-    
+    //Nhận email để gửi mật khẩu mới
     public function getInputEmail(){
         return view('emails.input-email');
     }
+    
+    //Xác nhận email và gửi mật khẩu
     public function postInputEmail(Request $req){
         $email=$req->txtEmail;
         //validate
@@ -105,12 +111,13 @@ class UserController extends Controller
             ];
             \Mail::to($email)->send(new \App\Mail\SendMail($sentData));
             Session::flash('message', 'Send email successfully!');
+            User::where('email',$email)->update(['password'=> Hash::make($pwd)]);
             echo '<script>alert("Mật khẩu mới đã được gửi đến email của bạn");window.location.assign("/getLogin");</script>';
             //về lại trang đăng nhập của khách
         }
         else {
             echo '<script>alert("Gửi lại mật khẩu không thành công");window.location.assign("/getInputEmail");</script>';
         }
-    }//hết postInputEmail
+    }
     
 }

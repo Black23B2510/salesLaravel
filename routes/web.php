@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +39,27 @@ Route::get('/vnpay_return',[ProductController::class,'vnpayReturn'])->name('vnpa
 
 Route::get('/getInput-email',[UserController::class,'getInputEmail'])->name('getInputEmail');
 Route::post('/input-email',[UserController::class,'postInputEmail'])->name('postInputEmail');
+
+
+//Wishlist
+Route::prefix('wishlist')->group(function () {
+    Route::get('/add/{id}', [WishlistController::class, 'AddWishlist']);
+    Route::get('/delete/{id}', [WishlistController::class, 'DeleteWishlist']);
+
+    Route::get('/order', [WishlistController::class, 'OrderWishlist']);
+});
+//Comment
+Route::post('/comment/{id}', [CommentController::class, 'AddComment']);
+
+// ----------------------- TRANG ADMIN --------------------
+Route::get('/admin', [ProductController::class, 'getIndexAdmin'])->name('admin');
+Route::get('/admin-add-form', [ProductController::class, 'getAdminAdd'])->name('add-product');
+Route::post('/admin-add-form', [ProductController::class, 'postAdminAdd']);
+Route::get('/admin-edit-form/{id}', [ProductController::class, 'getAdminEdit']);
+Route::post('/admin-edit', [ProductController::class, 'postAdminEdit'])->name('editProduct');
+Route::post('/admin-delete/{id}', [ProductController::class, 'postAdminDelete']);
+Route::get('/billsManage', [ProductController::class, 'getBillsManage']);
+
+
+Route::get('/userBills', [ProductController::class, 'getUserBill']);
+Route::post('/newBills/{{id}}', [ProductController::class, 'updateStatusBill']);
